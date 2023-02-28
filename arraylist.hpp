@@ -85,10 +85,6 @@ T& ArrayList<T>:: operator[](int i){
     }
 }
 
-  // Purpose: return a read-only reference to the element at
-  // the specified position
-  // Parameters: i is 0-based index into the ArrayList
-  // Returns: the element at position i in the ArrayList
 template <typename T>
 const T& ArrayList<T>:: operator[](int i) const{
     if(i >= 0 && i < m_size)
@@ -99,10 +95,6 @@ const T& ArrayList<T>:: operator[](int i) const{
     }
 }
 
-  // Purpose: finds an element in the ArrayList
-  // Parameters: 'x' is value to be found in the ArrayList
-  // Returns: the position of the first occurrance of 'x' in the list,
-  //          or -1  if 'x' is not found.
 template <typename T>
 int ArrayList<T>::search(const T& x) const{
     for(int i = 0; i < size; i++){
