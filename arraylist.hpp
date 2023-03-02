@@ -152,11 +152,19 @@ void ArrayList<T>::swap(int i, int k){
 
 template <typename T>
 void ArrayList<T>::append(const ArrayList<T>& alist){
-    
+    int num = size() + alist.size();
+    while(num > m_max){
+        grow();
+    }
+    for(int i = 0; i < alist.size(); i++){
+        insert_back(alist.m_data[i]);
+    }
+    m_size = num;
 }
 
 template <typename T>
 void ArrayList<T>::reverse(){
+    T* temp = new T[m_max];
     
 }
 
