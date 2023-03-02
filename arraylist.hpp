@@ -71,7 +71,11 @@ int ArrayList<T>::size() const{
 
 template <typename T>
 const T& ArrayList<T>::first() const{
-    return m_data[0];
+    if(m_size != 0)
+        return m_data[0];
+    else
+        cout << "!!! ERROR : ARRAYLIST.first() !!! (List is empty)\n";
+        return m_errobj;
 }
 
 template <typename T>
@@ -79,7 +83,7 @@ T& ArrayList<T>::operator[](int i){
     if(i >= 0 && i < m_size)
         return m_data[i];
     else{
-        cout << "!Error!" << endl;
+        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)" << endl;
         return m_errobj;
     }
 }
@@ -89,7 +93,7 @@ const T& ArrayList<T>::operator[](int i) const{
     if(i >= 0 && i < m_size)
         return m_data[i];
     else{
-        cout << "!Error!" << endl;
+        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)" << endl;
         return m_errobj;
     }
 }
@@ -124,30 +128,45 @@ void ArrayList<T>::insert(const T& x, int i){
     m_size++;
     if(m_size > m_max)
         grow();
-    for(int k = m_size; k > i; k--){
-        m_data[k] = m_data[k-1];
+    if(i > m_max){
+        cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
+        return;
     }
-    m_data[i] = x;
+    else{
+        for(int k = m_size; k > i; k--){
+            m_data[k] = m_data[k-1];
+        }
+        m_data[i] = x;
+    }
 }
 
 template <typename T>
 void ArrayList<T>::remove(int i){
-    if(i < 0)
+    if(i < 0 || i > m_max){
+        cout << "!!! ERROR : ARRAYLIST.remove() !!! (index out of bounds)\n";
         return;
-    for(int k = i; k < m_size; k++){
-        m_data[k] = m_data[k+1];
     }
-    m_size--;
-    if((m_size < m_max/4) && (m_max > 4)){
-        shrink();
+    else{
+        for(int k = i; k < m_size; k++){
+            m_data[k] = m_data[k+1];
+        }
+        m_size--;
+        if((m_size < m_max/4) && (m_max > 4)){
+            shrink();
+        }
     }
 }
 
 template <typename T>
 void ArrayList<T>::swap(int i, int k){
-    T tmp = m_data[i];
-    m_data[i] = m_data[k];
-    m_data[k] = tmp;
+    if(i < 0 || i > m_max || k < 0 || k > m_max){
+        cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
+        return;
+    } else{
+        T tmp = m_data[i];
+        m_data[i] = m_data[k];
+        m_data[k] = tmp;
+    }
 }
 
 template <typename T>
