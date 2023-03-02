@@ -39,6 +39,7 @@ ArrayList<T>::ArrayList(int s, const T& x){
 
 template <typename T>
 ArrayList<T>::~ArrayList(){
+    
     delete [] m_data;
     m_data = NULL;
     m_size = 0;
@@ -109,6 +110,7 @@ int ArrayList<T>::search(const T& x) const{
 
 template <typename T>
 void ArrayList<T>::clear(){
+    
     delete [] m_data;
     m_size = 0;
     m_max = 4;
@@ -190,6 +192,8 @@ void ArrayList<T>::reverse(){
         temp[j] = m_data[i];
         j++;
     }
+    
+    delete [] m_data;
     m_data = temp;
     temp = NULL;
 }
