@@ -165,6 +165,12 @@ void ArrayList<T>::append(const ArrayList<T>& alist){
 template <typename T>
 void ArrayList<T>::reverse(){
     T* temp = new T[m_max];
-    
+    int j = 0;
+    for(int i = m_size -1; i >= 0; i--){
+        temp[j] = m_data[i];
+        j++;
+    }
+    m_data = temp;
+    temp = NULL;
 }
 
