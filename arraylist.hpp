@@ -159,8 +159,8 @@ void ArrayList<T>::remove(int i){
 
 template <typename T>
 void ArrayList<T>::swap(int i, int k){
-    if(i < 0 || i > m_max || k < 0 || k > m_max){
-        cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
+    if(i < 0 || i > m_size || k < 0 || k > m_size){
+        cout << "!!! ERROR : ARRAYLIST.swap() !!! (index out of bounds)\n";
         return;
     } else{
         T tmp = m_data[i];
