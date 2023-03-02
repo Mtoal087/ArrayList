@@ -130,6 +130,7 @@ void ArrayList<T>::insert(const T& x, int i){
         grow();
     if(i > m_max){
         cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
+	m_size--;
         return;
     }
     else{
