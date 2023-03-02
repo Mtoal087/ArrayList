@@ -124,19 +124,22 @@ void ArrayList<T>::insert(const T& x, int i){
     m_size++;
     if(m_size > m_max)
         grow();
+    for(int k = m_size; k > i; k--){
+        m_data[k] = m_data[k-1];
+    }
     m_data[i] = x;
 }
 
 template <typename T>
 void ArrayList<T>::remove(int i){
-    if(m_size <= 1){
-        for(int k = i; i < m_size; k++){
-            m_data[k] = m_data[k+1];
-        }
-        m_size--;
-        if((m_size < m_max/4) && (m_max > 4)){
-            shrink();
-        }
+    if(i < 0)
+        return;
+    for(int k = i; k < m_size; k++){
+        m_data[k] = m_data[k+1];
+    }
+    m_size--;
+    if((m_size < m_max/4) && (m_max > 4)){
+        shrink();
     }
 }
 
@@ -149,20 +152,11 @@ void ArrayList<T>::swap(int i, int k){
 
 template <typename T>
 void ArrayList<T>::append(const ArrayList<T>& alist){
-    m_size = size() + alist.size();
-    while(m_size > m_max){
-        grow();
-    }
-    *this += alist;
+    
 }
 
 template <typename T>
 void ArrayList<T>::reverse(){
-    T* temp = new T[m_max];
-    for(int i = (m_size - 1); i >= 0; i--){
-        temp = m_data[i];
-    }
-    delete [] m_data;
-    m_data = temp;
+    
 }
 
