@@ -13,8 +13,7 @@ void ArrayList<T>::grow(){
 
 template <typename T>
 void ArrayList<T>::shrink(){
-    T* temp;
-    temp = new T[m_max / 2];
+    T* temp = new T[m_max / 2];
     for(int i = 0; i < m_size; i++){
         temp[i] = m_data[i];
     }
@@ -29,37 +28,36 @@ ArrayList<T>::ArrayList(int s, const T& x){
         grow();
     }
     m_size = s;
-    T* temp;
-    temp = new T[m_max];
+    T* temp = new T[m_max];
     for(int i = 0; i < m_size; i++){
         temp[i] = x;
     }
+    delete [] m_data;
     m_data = temp;
 }
 
 template <typename T>
 ArrayList<T>::~ArrayList(){
-    
+    m_size = m_max = 0;
     delete [] m_data;
     m_data = NULL;
-    m_size = 0;
-    m_max = 0;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::operator=(const ArrayList<T>& rhs){
     delete [] m_data;
-	m_data = new T[rhs.m_max];
+    m_data = new T[rhs.m_max];
     m_max = rhs.m_max;
-    for(int i = 0; i < rhs.m_size; i++){
-		m_data[i] = rhs.m_data[i];
-	}
+    for(int i = 0; i < rhs.m_max; i++){
+        m_data[i] = rhs.m_data[i];
+    }
     m_size = rhs.m_size;
-	return *this;
+    return *this;
 }
 
 template <typename T>
 ArrayList<T>::ArrayList(const ArrayList<T>& cpy){
+    delete [] m_data;
     m_data = NULL;
     m_max = m_size = 0;
     *this = cpy;
@@ -74,9 +72,10 @@ template <typename T>
 const T& ArrayList<T>::first() const{
     if(m_size != 0)
         return m_data[0];
-    else
+    else{
         cout << "!!! ERROR : ARRAYLIST.first() !!! (List is empty)\n";
         return m_errobj;
+    }
 }
 
 template <typename T>
@@ -84,7 +83,7 @@ T& ArrayList<T>::operator[](int i){
     if(i >= 0 && i < m_size)
         return m_data[i];
     else{
-        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)" << endl;
+        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)\n";
         return m_errobj;
     }
 }
@@ -94,7 +93,7 @@ const T& ArrayList<T>::operator[](int i) const{
     if(i >= 0 && i < m_size)
         return m_data[i];
     else{
-        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)" << endl;
+        cout << "!!! ERROR : ARRAYLIST.[] !!! (index out of bounds)\n";
         return m_errobj;
     }
 }
@@ -110,7 +109,6 @@ int ArrayList<T>::search(const T& x) const{
 
 template <typename T>
 void ArrayList<T>::clear(){
-    
     delete [] m_data;
     m_size = 0;
     m_max = 4;
@@ -132,7 +130,7 @@ void ArrayList<T>::insert(const T& x, int i){
         grow();
     if(i > m_max){
         cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
-	m_size--;
+        m_size--;
         return;
     }
     else{
@@ -188,13 +186,10 @@ template <typename T>
 void ArrayList<T>::reverse(){
     T* temp = new T[m_max];
     int j = 0;
-    for(int i = m_size -1; i >= 0; i--){
+    for(int i = m_size - 1; i >= 0; i--){
         temp[j] = m_data[i];
         j++;
     }
-    
     delete [] m_data;
     m_data = temp;
-    temp = NULL;
 }
-
