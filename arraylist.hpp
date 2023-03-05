@@ -6,9 +6,9 @@ void ArrayList<T>::grow(){
     for(int i = 0; i < m_size; i++){
         temp[i] = m_data[i];
     }
-    m_max = m_max * 2;
-    delete [] m_data;
+    delete[] m_data;
     m_data = temp;
+    m_max = m_max * 2;
 }
 
 template <typename T>
@@ -17,50 +17,51 @@ void ArrayList<T>::shrink(){
     for(int i = 0; i < m_size; i++){
         temp[i] = m_data[i];
     }
-    m_max = m_max / 2;
-    delete [] m_data;
+    delete[] m_data;
     m_data = temp;
+    m_max = m_max / 2;
 }
 
 template <typename T>
 ArrayList<T>::ArrayList(int s, const T& x){
-    while(s > m_max){
+    m_size = s;
+    while(m_size > m_max){
         grow();
     }
-    m_size = s;
     T* temp = new T[m_max];
     for(int i = 0; i < m_size; i++){
         temp[i] = x;
     }
-    delete [] m_data;
     m_data = temp;
 }
 
 template <typename T>
 ArrayList<T>::~ArrayList(){
     m_size = m_max = 0;
-    delete [] m_data;
+    delete[] m_data;
     m_data = NULL;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::operator=(const ArrayList<T>& rhs){
-    delete [] m_data;
+    delete[] m_data;
     m_data = new T[rhs.m_max];
     m_max = rhs.m_max;
-    for(int i = 0; i < rhs.m_max; i++){
+    m_size = rhs.m_size;
+    for(int i = 0; i < m_max; i++){
         m_data[i] = rhs.m_data[i];
     }
-    m_size = rhs.m_size;
     return *this;
 }
 
 template <typename T>
 ArrayList<T>::ArrayList(const ArrayList<T>& cpy){
-    delete [] m_data;
-    m_data = NULL;
-    m_max = m_size = 0;
-    *this = cpy;
+    m_data = new T[cpy.m_max];
+    m_size = cpy.m_size;
+    m_max = cpy.m_max;
+    for(int i = 0; i < m_size; i++){
+        m_data[i] = cpy.m_data[i];
+    }
 }
 
 template <typename T>
@@ -109,7 +110,7 @@ int ArrayList<T>::search(const T& x) const{
 
 template <typename T>
 void ArrayList<T>::clear(){
-    delete [] m_data;
+    delete[] m_data;
     m_size = 0;
     m_max = 4;
     m_data = new T[m_max];
@@ -118,7 +119,7 @@ void ArrayList<T>::clear(){
 template <typename T>
 void ArrayList<T>::insert_back(const T& x){
     m_size++;
-    if(m_size > m_max)
+    if(m_size >= m_max)
         grow();
     m_data[m_size - 1] = x;
 }
@@ -126,8 +127,9 @@ void ArrayList<T>::insert_back(const T& x){
 template <typename T>
 void ArrayList<T>::insert(const T& x, int i){
     m_size++;
-    if(m_size > m_max)
+    if(m_size > m_max){
         grow();
+    }
     if(i > m_max){
         cout << "!!! ERROR : ARRAYLIST.insert() !!! (index out of bounds)\n";
         m_size--;
@@ -163,7 +165,8 @@ void ArrayList<T>::swap(int i, int k){
     if(i < 0 || i > m_size || k < 0 || k > m_size){
         cout << "!!! ERROR : ARRAYLIST.swap() !!! (index out of bounds)\n";
         return;
-    } else{
+    } 
+    else{
         T tmp = m_data[i];
         m_data[i] = m_data[k];
         m_data[k] = tmp;
